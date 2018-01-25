@@ -4,7 +4,7 @@ import numpy as np
 
 lines = []
 with open('./input_data/driving_log.csv') as csvfile:
-    reader = csv.read(csvfile)
+    reader = csv.reader(csvfile)
     for line in reader:
         lines.append(line)
 
