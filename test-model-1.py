@@ -10,20 +10,28 @@ with open('./input_data/driving_log.csv') as csvfile:
 
 images = []
 measurements = []
+line_ctr = 0
 for line in lines:
-    source_path = line[0]
-    filename = source_path.split('/')[-1]
-    current_path = './input_data/IMG/' + filename
-    image = cv2.imread(current_path)
+	if line_ctr > 0:
+		source_path = line[0]
+		filename = source_path.split('/')[-1]
+		current_path = './input_data/IMG/' + filename
+		image = cv2.imread(current_path)
+		images.append(image)
+		measurement = float(line[3])
+		measurements.append(measurement)
+	line_ctr = line_ctr + 1
 
 X_train = np.array(images)
+print ('X_train',len(X_train))
 y_train = np.array(measurements)
+print ('y_train',len(y_train))
 
 from keras.models import Sequential
 from keras.layers import Flatten, Dense
 
 model = Sequential()
-model.add(Flatten(shape=(160,320,3)))
+model.add(Flatten(input_shape=(160,320,3)))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
