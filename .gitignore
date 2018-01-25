@@ -6,4 +6,6 @@ models
 *.p
 lenet.*
 *.zip
+.idea/*
+*.iml
 
