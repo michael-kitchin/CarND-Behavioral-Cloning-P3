@@ -22,6 +22,6 @@ dependencies:
     - pyqt
     - pip:
         - moviepy
-        - tensorflow==1.5.0
+        - tensorflow-gpu==1.5.0
         - keras
 
