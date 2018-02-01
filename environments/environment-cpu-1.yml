@@ -1,4 +1,4 @@
-name: carnd-term1-mjk
+name: bc-project-cpu-1
 channels:
     - https://conda.anaconda.org/menpo
     - conda-forge
@@ -22,6 +22,6 @@ dependencies:
     - pyqt
     - pip:
         - moviepy
-        - tensorflow-gpu==1.5.0
+        - tensorflow==1.5.0
         - keras
 
