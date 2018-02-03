@@ -1,59 +1,9 @@
+from util.model import *
 import math
 import csv
 import cv2
-import keras
 import numpy as np
-from keras.layers import Flatten, Dense, Dropout, Lambda, Conv2D
-from keras.models import Sequential
 from sklearn.utils import shuffle
-
-
-class SampleSequence(keras.utils.Sequence):
-    def __init__(self, X_set, y_set, batch_size):
-        assert (len(X_set) == len(y_set))
-        self.x, self.y = X_set, y_set
-        self.batch_size = batch_size
-
-    def __len__(self):
-        return math.ceil(len(self.x) / self.batch_size)
-
-    def __iter__(self):
-        return self
-
-    def __getitem__(self, idx):
-        batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
-        batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
-
-        return np.array(batch_x), \
-               np.array(batch_y)
-
-
-def normalize_image(x):
-    x = x - keras.backend.mean(x, (1, 2), keepdims=True)
-    x_maxabs = keras.backend.max(keras.backend.abs(x), (1, 2), keepdims=True)
-
-    return x / x_maxabs
-
-
-def build_model(activation='elu', dropout=0.0):
-    model = Sequential()
-    model.add(Lambda(lambda x: normalize_image(x), input_shape=(160, 320, 3)))
-    model.add(Conv2D(24, (5, 5), padding='valid', strides=(2, 2), activation=activation))
-    model.add(Conv2D(36, (5, 5), padding='valid', strides=(2, 2), activation=activation))
-    model.add(Conv2D(48, (5, 5), padding='valid', strides=(2, 2), activation=activation))
-    model.add(Conv2D(64, (3, 3), padding='valid', activation=activation))
-    model.add(Conv2D(64, (3, 3), padding='valid', activation=activation))
-    model.add(Flatten())
-    model.add(Dropout(dropout))
-    model.add(Dense(100, activation=activation))
-    model.add(Dropout(dropout))
-    model.add(Dense(50, activation=activation))
-    model.add(Dropout(dropout))
-    model.add(Dense(10, activation=activation))
-    model.add(Dense(1))
-
-    return model
-
 
 lines = []
 with open('./input_data/driving_log.csv') as csvfile:
@@ -98,9 +48,9 @@ loss = 'mse'
 optimizer = 'adam'
 activation = 'elu'
 dropout = 0.5
-epochs = 10
+epochs = 8
 validation_split = 0.2
-batch_size = 128
+batch_size = 256
 validation_index = int(len(X_input) * (1.0 - validation_split))
 print ('Samples:', len(X_input),
        "Training:", validation_index,

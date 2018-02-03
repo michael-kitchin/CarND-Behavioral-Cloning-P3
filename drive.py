@@ -1,3 +1,4 @@
+from util.model import *
 import argparse
 import base64
 from datetime import datetime
@@ -14,13 +15,13 @@ from io import BytesIO
 
 from keras.models import load_model
 import h5py
+import keras
 from keras import __version__ as keras_version
 
 sio = socketio.Server()
 app = Flask(__name__)
 model = None
 prev_image_array = None
-
 
 class SimplePIController:
     def __init__(self, Kp, Ki):
