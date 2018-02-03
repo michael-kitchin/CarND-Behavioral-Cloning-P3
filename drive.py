@@ -45,7 +45,7 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 35
 controller.set_desired(set_speed)
 
 
@@ -89,7 +89,7 @@ def send_control(steering_angle, throttle):
     sio.emit(
         "steer",
         data={
-            'steering_angle': steering_angle.__str__(),
+            'steering_angle': (steering_angle*1.3).__str__(),
             'throttle': throttle.__str__()
         },
         skip_sid=True)
