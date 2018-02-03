@@ -1,8 +1,9 @@
+import keras
 import math
 import numpy as np
-import keras
 from keras.layers import Flatten, Dense, Dropout, Lambda, Conv2D
 from keras.models import Sequential
+
 
 class SampleSequence(keras.utils.Sequence):
     def __init__(self, X_set, y_set, batch_size):
@@ -23,6 +24,11 @@ class SampleSequence(keras.utils.Sequence):
         return np.array(batch_x), \
                np.array(batch_y)
 
+
+def preprocess_image(image):
+    return image[60 + 0:126 + 0, 60 + 0:260 + 0]
+
+
 def normalize_image(x):
     x = x - keras.backend.mean(x, (1, 2), keepdims=True)
     x_maxabs = keras.backend.max(keras.backend.abs(x), (1, 2), keepdims=True)
@@ -32,7 +38,7 @@ def normalize_image(x):
 
 def build_model(activation='elu', dropout=0.0):
     model = Sequential()
-    model.add(Lambda(lambda x: normalize_image(x), input_shape=(160, 320, 3)))
+    model.add(Lambda(lambda x: normalize_image(x), input_shape=(66, 200, 3)))
     model.add(Conv2D(24, (5, 5), padding='valid', strides=(2, 2), activation=activation))
     model.add(Conv2D(36, (5, 5), padding='valid', strides=(2, 2), activation=activation))
     model.add(Conv2D(48, (5, 5), padding='valid', strides=(2, 2), activation=activation))
