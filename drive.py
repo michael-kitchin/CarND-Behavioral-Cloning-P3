@@ -23,6 +23,10 @@ prev_image_array = None
 
 
 class SimplePIController:
+    """
+    Progressive throttle controller.
+    """
+
     def __init__(self, Kp, Ki):
         self.Kp = Kp
         self.Ki = Ki
@@ -47,21 +51,32 @@ controller = SimplePIController(0.1, 0.002)
 set_speed = 0.0
 controller.set_desired(set_speed)
 
+# Optional random steering injection
 random_steering_interval = 0
 random_steering_multiplier = 0.0
 next_random_steering_ctr = 0
 
+# Optional random throttle injection
 random_throttle_interval = 0
 random_throttle_multiplier = 0.0
 next_random_throttle_ctr = 0
 
+# Control counter (how many commands have been sent)
 send_control_ctr = 0
+
+# Base steering/throttle multipliers
 base_steering_multiplier = 0.0
 base_throttle_multiplier = 0.0
 
 
 @sio.on('telemetry')
 def telemetry(sid, data):
+    """
+    Receives telemetry from simulator.
+    :param sid:  SID.
+    :param data: Output data.
+    :return:
+    """
     if data:
         # The current steering angle of the car
         steering_angle = data["steering_angle"]
@@ -97,11 +112,23 @@ def telemetry(sid, data):
 
 @sio.on('connect')
 def connect(sid, environ):
+    """
+    Connect callback.
+    :param sid:  SID.
+    :param environ: Environment data.
+    :return:
+    """
     print("connect ", sid)
     send_control(0, 0)
 
 
 def send_control(steering_angle, throttle):
+    """
+    Sends control back to simulator.
+    :param steering_angle: Steering angle.
+    :param throttle: Throttle.
+    :return:
+    """
     global send_control_ctr
     send_control_ctr += 1
 
@@ -137,6 +164,7 @@ def send_control(steering_angle, throttle):
 
 
 if __name__ == '__main__':
+    # Main method
     parser = argparse.ArgumentParser(description='Remote Driving')
     parser.add_argument('model', type=str,
                         help='Path to model h5 file. Model should be on the same path.')
