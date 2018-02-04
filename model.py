@@ -1,7 +1,7 @@
-import random
 import argparse
 import csv
 import cv2
+import random
 import scipy.ndimage
 from itertools import product
 from sklearn.utils import shuffle
@@ -30,6 +30,7 @@ parser.add_argument('--validation-split', action='append', type=float)
 parser.add_argument('--batch-size', action='append', type=int)
 parser.add_argument('--shuffle-images', action='append', type=bool)
 parser.add_argument('--shuffle-batches', action='append', type=bool)
+
 args = vars(parser.parse_args())
 print ("Args: {}".format(args))
 

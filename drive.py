@@ -1,27 +1,26 @@
-from util.model import *
 import argparse
 import base64
-from datetime import datetime
-import os
-import shutil
-
-import numpy as np
-import socketio
-import eventlet
 import eventlet.wsgi
+import h5py
+import numpy as np
+import os
+import random
+import shutil
+import socketio
 from PIL import Image
+from datetime import datetime
 from flask import Flask
 from io import BytesIO
-
-from keras.models import load_model
-import h5py
-import keras
 from keras import __version__ as keras_version
+from keras.models import load_model
+
+from util.model import *
 
 sio = socketio.Server()
 app = Flask(__name__)
 model = None
 prev_image_array = None
+
 
 class SimplePIController:
     def __init__(self, Kp, Ki):
@@ -45,8 +44,18 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 35
+set_speed = 0.0
 controller.set_desired(set_speed)
+
+random_steering_interval = 0
+random_steering_multiplier = 0.0
+next_random_steering_ctr = 0
+
+random_throttle_interval = 0
+random_throttle_multiplier = 0.0
+next_random_throttle_ctr = 0
+
+send_control_ctr = 0
 
 
 @sio.on('telemetry')
@@ -62,7 +71,7 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = preprocess_image(np.asarray(image))
-        steering_angle = (float(model.predict(image_array[None, :, :, :], batch_size=1))*1.4)
+        steering_angle = (float(model.predict(image_array[None, :, :, :], batch_size=1)) * 1.4)
 
         throttle = controller.update(float(speed))
 
@@ -86,6 +95,33 @@ def connect(sid, environ):
 
 
 def send_control(steering_angle, throttle):
+    global send_control_ctr
+    send_control_ctr += 1
+
+    global random_steering_interval, next_random_steering_ctr
+    if random_steering_interval > 0:
+        if send_control_ctr % random_steering_interval == 0:
+            next_random_steering_ctr = random.randint(send_control_ctr,
+                                                      send_control_ctr + random_steering_interval)
+        if send_control_ctr == next_random_steering_ctr:
+            global random_steering_multiplier
+            new_steering_angle = (steering_angle * random_steering_multiplier)
+            print ("Random steering (in: {}, out: {})"
+                   .format(steering_angle, new_steering_angle))
+            steering_angle = new_steering_angle
+
+    global random_throttle_interval, next_random_throttle_ctr
+    if random_throttle_interval > 0:
+        if send_control_ctr % random_throttle_interval == 0:
+            next_random_throttle_ctr = random.randint(send_control_ctr,
+                                                      send_control_ctr + random_throttle_interval)
+        if send_control_ctr == next_random_throttle_ctr:
+            global random_throttle_multiplier
+            new_throttle = (throttle * random_throttle_multiplier)
+            print ("Random throttle (in: {}, out: {})"
+                   .format(throttle, new_throttle))
+            throttle = new_throttle
+
     sio.emit(
         "steer",
         data={
@@ -97,30 +133,37 @@ def send_control(steering_angle, throttle):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Remote Driving')
-    parser.add_argument(
-        'model',
-        type=str,
-        help='Path to model h5 file. Model should be on the same path.'
-    )
-    parser.add_argument(
-        'image_folder',
-        type=str,
-        nargs='?',
-        default='',
-        help='Path to image folder. This is where the images from the run will be saved.'
-    )
+    parser.add_argument('model', type=str,
+                        help='Path to model h5 file. Model should be on the same path.')
+    parser.add_argument('image_folder', type=str, nargs='?', default='',
+                        help='Path to image folder. This is where the images from the run will be saved.')
+    parser.add_argument('--random-steering-interval', type=int, default=0)
+    parser.add_argument('--random-steering-multiplier', type=float, default=10.0)
+    parser.add_argument('--random-throttle-interval', type=int, default=0)
+    parser.add_argument('--random-throttle-multiplier', type=float, default=10.0)
+    parser.add_argument('--set-speed', type=float, default=35.0)
+
     args = parser.parse_args()
+    print ("Args: {}".format(args))
 
     # check that model Keras version is same as local Keras version
     f = h5py.File(args.model, mode='r')
     model_version = f.attrs.get('keras_version')
     keras_version = str(keras_version).encode('utf8')
 
+    random_steering_interval = args.random_steering_interval
+    random_steering_multiplier = args.random_steering_multiplier
+    random_throttle_interval = args.random_throttle_interval
+    random_throttle_multiplier = args.random_throttle_multiplier
+
+    set_speed = args.set_speed
+    controller.set_desired(set_speed)
+
     if model_version != keras_version:
         print('You are using Keras version ', keras_version,
               ', but the model was built using ', model_version)
 
-    model = load_model(args.model,custom_objects={'normalize_image': normalize_image})
+    model = load_model(args.model, custom_objects={'normalize_image': normalize_image})
 
     if args.image_folder != '':
         print("Creating image folder at {}".format(args.image_folder))
