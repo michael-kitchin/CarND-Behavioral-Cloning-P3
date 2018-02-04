@@ -147,7 +147,7 @@ if __name__ == '__main__':
     parser.add_argument('--random-throttle-interval', type=int, default=0)
     parser.add_argument('--random-throttle-multiplier', type=float, default=10.0)
     parser.add_argument('--set-speed', type=float, default=35.0)
-    parser.add_argument('--base-steering-multiplier', type=float, default=1.3)
+    parser.add_argument('--base-steering-multiplier', type=float, default=1.35)
     parser.add_argument('--base-throttle-multiplier', type=float, default=1.0)
 
     args = parser.parse_args()
