@@ -31,8 +31,8 @@ class SampleSequence(keras.utils.Sequence):
 
 def preprocess_image(image):
     """
-    Crop image to (a) exclude un-constructive sections
-    and (b) match model optimal input w/o scaling.
+    Crop image to (a) exclude un-constructive sections and
+    (b) match model optimal input w/o scaling.
     """
     return image[60:126, 60:260]
 
