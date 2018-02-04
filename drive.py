@@ -62,7 +62,7 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = preprocess_image(np.asarray(image))
-        steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
+        steering_angle = (float(model.predict(image_array[None, :, :, :], batch_size=1))*1.4)
 
         throttle = controller.update(float(speed))
 
@@ -89,7 +89,7 @@ def send_control(steering_angle, throttle):
     sio.emit(
         "steer",
         data={
-            'steering_angle': (steering_angle*1.3).__str__(),
+            'steering_angle': steering_angle.__str__(),
             'throttle': throttle.__str__()
         },
         skip_sid=True)
