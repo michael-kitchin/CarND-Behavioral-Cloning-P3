@@ -10,6 +10,12 @@ from util.model import *
 
 
 def check_arg(arg, default):
+    """
+    Helper to deal with argparse's behavior around lists.
+    :param arg: Arg list (optional, may be None)
+    :param default: Default if arg list None.
+    :return: Arg list or default, wrapped in list.
+    """
     if arg is None:
         return [default]
     else:
