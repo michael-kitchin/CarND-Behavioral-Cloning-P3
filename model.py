@@ -1,3 +1,4 @@
+import random
 import argparse
 import csv
 import cv2
@@ -44,6 +45,7 @@ all_config = list(product(check_arg(args['input_file'], './input_data/driving_lo
                           check_arg(args['batch_size'], 128),
                           check_arg(args['shuffle_images'], True),
                           check_arg(args['shuffle_batches'], False)))
+random.shuffle(all_config)
 
 config_ctr = 0
 for run_config in all_config:
