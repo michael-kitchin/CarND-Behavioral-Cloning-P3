@@ -56,6 +56,8 @@ random_throttle_multiplier = 0.0
 next_random_throttle_ctr = 0
 
 send_control_ctr = 0
+base_steering_multiplier = 0.0
+base_throttle_multiplier = 0.0
 
 
 @sio.on('telemetry')
@@ -71,9 +73,14 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = preprocess_image(np.asarray(image))
-        steering_angle = (float(model.predict(image_array[None, :, :, :], batch_size=1)) * 1.4)
+
+        steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
+        if base_steering_multiplier != 1.0:
+            steering_angle *= base_steering_multiplier
 
         throttle = controller.update(float(speed))
+        if base_throttle_multiplier != 1.0:
+            throttle *= base_throttle_multiplier
 
         print(steering_angle, throttle)
         send_control(steering_angle, throttle)
@@ -98,25 +105,23 @@ def send_control(steering_angle, throttle):
     global send_control_ctr
     send_control_ctr += 1
 
-    global random_steering_interval, next_random_steering_ctr
     if random_steering_interval > 0:
+        global next_random_steering_ctr
         if send_control_ctr % random_steering_interval == 0:
             next_random_steering_ctr = random.randint(send_control_ctr,
                                                       send_control_ctr + random_steering_interval)
         if send_control_ctr == next_random_steering_ctr:
-            global random_steering_multiplier
             new_steering_angle = (steering_angle * random_steering_multiplier)
             print ("Random steering (in: {}, out: {})"
                    .format(steering_angle, new_steering_angle))
             steering_angle = new_steering_angle
 
-    global random_throttle_interval, next_random_throttle_ctr
     if random_throttle_interval > 0:
+        global next_random_throttle_ctr
         if send_control_ctr % random_throttle_interval == 0:
             next_random_throttle_ctr = random.randint(send_control_ctr,
                                                       send_control_ctr + random_throttle_interval)
         if send_control_ctr == next_random_throttle_ctr:
-            global random_throttle_multiplier
             new_throttle = (throttle * random_throttle_multiplier)
             print ("Random throttle (in: {}, out: {})"
                    .format(throttle, new_throttle))
@@ -142,6 +147,8 @@ if __name__ == '__main__':
     parser.add_argument('--random-throttle-interval', type=int, default=0)
     parser.add_argument('--random-throttle-multiplier', type=float, default=10.0)
     parser.add_argument('--set-speed', type=float, default=35.0)
+    parser.add_argument('--base-steering-multiplier', type=float, default=1.3)
+    parser.add_argument('--base-throttle-multiplier', type=float, default=1.0)
 
     args = parser.parse_args()
     print ("Args: {}".format(args))
@@ -157,6 +164,9 @@ if __name__ == '__main__':
     random_throttle_multiplier = args.random_throttle_multiplier
 
     set_speed = args.set_speed
+    base_steering_multiplier = args.base_steering_multiplier
+    base_throttle_multiplier = args.base_throttle_multiplier
+
     controller.set_desired(set_speed)
 
     if model_version != keras_version:
