@@ -103,9 +103,8 @@ for run_config in all_config:
         X_input, y_input = shuffle(X_input, y_input)
 
     validation_index = int(len(X_input) * (1.0 - validation_split))
-    print ("Samples:", len(X_input),
-           "Training:", validation_index,
-           "Validation:", len(X_input) - validation_index)
+    print ("Samples: {}, Training: {}, Validation: {}"
+           .format(len(X_input), validation_index, len(X_input) - validation_index))
 
     X_train = np.array(X_input[0:validation_index])
     y_train = np.array(y_input[0:validation_index])
@@ -124,7 +123,5 @@ for run_config in all_config:
                         shuffle=shuffle_batches,
                         epochs=epoch_count)
 
-    model.save(
-        'model_{}.h5'.format('_'.join([(x[0] if isinstance(x, str) else str(x)) \
-                                       for x in run_config[2:]])).lower())
+    model.save('model_{}.h5'.format('_'.join([str(x) for x in run_config[2:]])).lower())
     config_ctr = config_ctr + 1
