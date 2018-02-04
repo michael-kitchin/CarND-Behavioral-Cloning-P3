@@ -34,7 +34,7 @@ def preprocess_image(image):
     Crop image to (a) exclude un-constructive sections
     and (b) match model optimal input w/o scaling.
     """
-    return image[60 + 0:126 + 0, 60 + 0:260 + 0]
+    return image[60:126, 60:260]
 
 
 def normalize_image(x):
