@@ -24,9 +24,7 @@ Python script for executing the model to control a simulated vehicle.
 * [model.h5](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/model.h5):
 Serialized version of the best-performing model weights.
 * [video.mp4](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/video.mp4): 
-Video of the best-peforming model controlling the simulated vehicle through several laps on a test track.
-
-![video.mp4](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/video.mp4)    
+Video of the best-performing model controlling the simulated vehicle through several laps on a test track.
 
 ---
 
