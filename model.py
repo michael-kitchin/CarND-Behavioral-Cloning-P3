@@ -1,3 +1,9 @@
+######################################################
+### model.py -- Builds & trains nVidia DAVE 2 CNN, ###
+### then saves weights for simulated autonomous    ###
+### vehicle operation.                             ###
+######################################################
+
 import argparse
 import csv
 import cv2
@@ -93,7 +99,7 @@ for run_config in all_config:
         for line in lines:
             # Doing these in series (normal/reverse + center/left/right)
             # to coerce cumulative training effects (anecdotal, unproven)
-            if line_ctr % 1000 == 0:
+            if line_ctr % 2000 == 0:
                 print ("Reverse: ", rev_ctr, "Field: ", field_ctr, "Line: ", line_ctr)
 
             # Build path to image1
@@ -150,6 +156,7 @@ for run_config in all_config:
                         validation_steps=len(validation_generator),
                         shuffle=shuffle_batches,
                         epochs=epoch_count)
+    model.summary()
 
     # Save model in (mostly) descriptive file name
     model.save('model_{}.h5'.format('_'.join([str(x) for x in run_config[2:]])).lower())

@@ -1,3 +1,9 @@
+########################################################
+### drive.py -- Builds & executes nVidia DAVE 2 CNN  ###
+### using previously-generated weights for simulated ###
+### autonomous vehicle operation.                    ###
+########################################################
+
 import argparse
 import base64
 import eventlet.wsgi

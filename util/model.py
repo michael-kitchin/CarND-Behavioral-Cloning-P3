@@ -51,7 +51,7 @@ def normalize_image(x):
 
 def build_model(activation='relu', dropout=0.5):
     """
-    Builds nVidia Dave2-complaint CNN.
+    Builds nVidia DAVE 2-complaint CNN.
     See: https://devblogs.nvidia.com/deep-learning-self-driving-cars/
     :param activation:  Activation function.
     :param dropout: Dropout probability.
