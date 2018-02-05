@@ -159,5 +159,8 @@ for run_config in all_config:
     model.summary()
 
     # Save model in (mostly) descriptive file name
-    model.save('model_{}.h5'.format('_'.join([str(x) for x in run_config[2:]])).lower())
+    model_file = 'model_{}.h5'.format('_'.join([str(x) for x in run_config[2:]])).lower()
+    print ("Model: {}".format(model_file))
+
+    model.save(model_file)
     config_ctr = config_ctr + 1
