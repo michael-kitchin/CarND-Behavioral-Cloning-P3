@@ -17,14 +17,14 @@ _The submission includes a model.py file, drive.py, model.h5 a writeup report an
 
 See: [GitHub Repo](https://github.com/michael-kitchin/https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3)
 
-* The model.py file, a Python script for creating/training the model from a simulated vehicle data log.
-    * [model.py](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/model.py)
-* The drive.py file, a Python script for executing the model to control a simulated vehicle.
-    * [drive.py](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/drive.py)
-* The model.h5 file, a serialized version of the best-performing model weights.
-    * [model.h5](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/model.h5)
-* The video.mp4 file, a video of the best-peforming model controlling the simulated vehicle through several laps on a test track.
-    * [video.mp4](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/video.mp4)
+* [model.py](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/model.py): 
+Python script for creating/training the model from a simulated vehicle data log.
+* [drive.py](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/drive.py):
+Python script for executing the model to control a simulated vehicle.
+* [model.h5](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/model.h5):
+Serialized version of the best-performing model weights.
+* [video.mp4](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/video.mp4): 
+Video of the best-peforming model controlling the simulated vehicle through several laps on a test track.
 
 ![video.mp4](https://github.com/michael-kitchin/CarND-Behavioral-Cloning-P3/blob/master/video.mp4)    
 
