@@ -258,7 +258,7 @@ Coupled with 1hz image acquisition, it was theorized/somewhat established that a
 
 A solution to this proved to be altering the control function in [drive.py](drive.py) to linearly magnify steering inputs. This simplistic, configurable approach was chosen in lieu of second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
 
-The outcome was a model/control coupling that worked well at any speed, coercing the simulated vehicle deeper into curves and exiting with harder turns. These aren't always ideal turn lines, but they are safe and effective. 
+The outcome was a model/control coupling that worked well at any speed, coercing the simulated vehicle deeper into curves and exiting with harder turns. These may not be ideal turn lines but are generally safe and effective. 
 
 A negative side-effect of this approach is continuous, low-magnitude/-frequency direction changes in straight sections. This does not cascade into (e.g) uncontrollable oscillations as the model remains in control, driven by image input at all times.              
 
