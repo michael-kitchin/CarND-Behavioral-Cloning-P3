@@ -254,7 +254,7 @@ As discussed above, training/verification data was limited to the set included w
 
 There was some uncertainty around the driving speed evident in this dataset and its effects on training/the outcome. It was suspected the recorded lap was driven faster than the default, configured ~9mph in the [drive.py](drive.py) script. In this case, if curves were executed with relatively typical [turn lines](https://en.wikipedia.org/wiki/Racing_line) input images should indicate steeper visible angles to lane edges when applying steering input.
 
-Coupled with 1hz image acquisition, it was theorized/somewhat established that at lower speeds a model (a) trained on higher speed runs but (b) executed at lower speeds appeared to apply steering input too soon/often, creating shallower visible angles while nearing lane edges. This would deviate significantly from trained model expectations, creating effects where the vehicle would hold lane edges at such angles until running off the road.
+Coupled with 1hz image acquisition, it was theorized/somewhat established that at lower speeds a model (a) trained on higher speed runs but (b) executed at lower speeds appeared to apply steering input too soon/often, creating shallower visible angles while nearing lane edges. In practice, this induced a cascading effect where the vehicle would hold such shallow angles near lane edges until it ran off the road.
 
 A solution to this proved to be altering the control function in [drive.py](drive.py) to linearly magnify steering inputs. This simplistic, configurable approach was chosen in lieu of second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
 
