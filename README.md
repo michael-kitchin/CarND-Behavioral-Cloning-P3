@@ -327,17 +327,17 @@ _No tire may leave the drivable portion of the track surface. The car may not po
 
 As shown in [video.mp4](video.mp4), the simulated vehicle will navigate test track #1 correctly/indefinitely at any speed up to the configurable maximum of ~30mph.
 
-Initial results were poor at the even default configured driving speed of ~9mph in the [drive.py](drive.py) script, with the model applying steering input too soon/often when approaching curves, reliably inducing the vehicle to hold shallow (more parallel), relative angles to lane edges until running off the road in harder turns (#2 and #3, especially). 
+Initial results were poor at the even default configured driving speed of ~9mph in the [drive.py](drive.py) script, with the model applying steering input too soon/often when approaching curves. This reliably induced the vehicle to hold shallow (more parallel), relative angles to lane edges until running off the road in harder turns (#2 and #3, especially). 
 
 Improved results derived from a suspicion the recorded lap had been driven faster than a consistent ~9mph. 
 
-Were the recorded lap driven faster and curves executed using typical [turn lines](https://en.wikipedia.org/wiki/Racing_line), input images should indicate steeper (more perpendicular), relative angles to lane edges at the point significant steering input was applied. With this in mind, it was theorized when this model was (a) trained on imagery acquired at higher driving speeds but (b) executed at lower speeds, it responded an approaching curve's lanes edge sooner that ideal and applied the kind of repetitive steering input necessary to induce effects described above.
+Were the recorded lap driven faster and curves executed using typical [turn lines](https://en.wikipedia.org/wiki/Racing_line), input images should indicate steeper (more perpendicular), relative angles to lane edges at the point significant steering input was applied. With this in mind, it was theorized when this model was (a) trained on imagery acquired at higher driving speeds but (b) executed at lower speeds, it responded an to approaching curve's lanes edge sooner that ideal and applied the kind of minimal, inconsistent steering input necessary to induce effects described above.
 
 It was further theorized matching/exceeding the recorded driving speed at the fixed sampling rate would more consistently place the vehicle deeper into curves, with steeper relative angles to lane edges in imagery. If successful, this input should induce more patterns/dynamics anticipated by the model and lead to more effective steering input.
 
-This led to extensive experimentation with different driving speeds and dataset smoothing/filtering without conclusive results, but did suggest higher driving speeds and control magnification may create opportunities for steeper relative angles to be frequent/evident enough to induce significant steering input.      
+These suspicions motivated experimentation with different driving speeds and dataset smoothing/filtering without conclusive results, but hands-on experience did suggest higher driving speeds and control magnification may create opportunities for steeper relative angles to be frequent/evident enough to induce more desirable steering input.      
 
-The most successful/interpretable approach to this was altering the control function in [drive.py](drive.py) to linearly magnify steering input. This simplistic, configurable approach was chosen in lieu of second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
+The most successful/interpretable approach to this was altering the control function in [drive.py](drive.py) to linearly magnify steering input. This simplistic, configurable approach was chosen in lieu of further second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
 
 The outcome was a model/control coupling that worked well at any speed, coercing the simulated vehicle deeper into curves and exiting with harder turns. This approach may not have yielded ideal turn lines but is evidently safe and effective within this simulation. 
 
