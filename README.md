@@ -339,6 +339,6 @@ These suspicions motivated experimentation with different driving speeds and dat
 
 The most successful/interpretable approach to this was altering the control function in [drive.py](drive.py) to linearly magnify steering input. This simplistic, configurable approach was chosen in lieu of further second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
 
-The outcome was a model/control coupling that worked well at any speed, coercing the simulated vehicle deeper into curves and exiting with harder turns. This approach may not have yielded ideal turn lines but is evidently safe and effective within this simulation. 
+The outcome was a model/control coupling that worked well at any speed, coercing the simulated vehicle deeper into curves and exiting with harder turns. This approach may not have yielded ideal turn lines but was evidently safe and effective within this simulation. 
 
 A negative side-effect of this approach is continuous, low-magnitude/-frequency direction changes in straight sections. This does not cascade into (e.g) uncontrollable oscillations as the model remains in control, driven by image input at all times.              
