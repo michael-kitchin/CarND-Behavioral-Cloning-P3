@@ -329,13 +329,13 @@ As shown in [video.mp4](video.mp4), the simulated vehicle will navigate test tra
 
 Initial results were poor at the even default configured driving speed of ~9mph in the [drive.py](drive.py) script, with the model applying steering input too soon/often when approaching curves, reliably inducing the vehicle to hold shallow (more parallel), relative angles to lane edges until running off the road in harder turns (#2 and #3, especially). 
 
-Imrpoved results derived from a suspicion the recorded lap had been driven faster than a consistent ~9mph. 
+Improved results derived from a suspicion the recorded lap had been driven faster than a consistent ~9mph. 
 
-Were the recorded lap driven faster and curves executed using typical [turn lines](https://en.wikipedia.org/wiki/Racing_line), input images should indicate steeper (more perpendicular), relative angles to lane edges when operators typically apply significant steering input. Considering the sampling rate, it was theorized images with such angles may also be strongly correlated with significant steering input.
+Were the recorded lap driven faster and curves executed using typical [turn lines](https://en.wikipedia.org/wiki/Racing_line), input images should indicate steeper (more perpendicular), relative angles to lane edges at the point significant steering input was applied. With this in mind, it was theorized when this model was (a) trained on imagery acquired at higher driving speeds but (b) executed at lower speeds, it detected approaching curve's lane edge sooner than ideal and applied minimal steering input from that point to create the effects observed above.
 
-It was further theorized/anecdotally established a model (a) trained on imagery acquired at higher driving speeds but (b) executed at lower speeds would detect an approaching curve's lane edge sooner vs later, then apply minimal steering input from that point to create the effects observed above.
+It was further theorized matching/exceeding the recorded driving speed at the fixed sampling rate would more consistently place the vehicle deeper into curves, with steeper relative angles to lane edges in imagery. If successful, this input should induce more patterns/dynamics anticipated by the model and lead to more effective steering input.
 
-This led to extensive experimentation with dataset smoothing/filtering without conclusive results, but did suggest higher driving speeds and control magnification may create opportunities for steeper relative angles to be frequent/evident enough to induce significant steering input.      
+This led to extensive experimentation with different driving speeds and dataset smoothing/filtering without conclusive results, but did suggest higher driving speeds and control magnification may create opportunities for steeper relative angles to be frequent/evident enough to induce significant steering input.      
 
 The most successful/interpretable approach to this was altering the control function in [drive.py](drive.py) to linearly magnify steering input. This simplistic, configurable approach was chosen in lieu of second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
 
