@@ -331,7 +331,7 @@ Initial results were poor at the even default configured driving speed of ~9mph 
 
 Improved results derived from a suspicion the recorded lap had been driven faster than a consistent ~9mph. 
 
-Were the recorded lap driven faster and curves executed using typical [turn lines](https://en.wikipedia.org/wiki/Racing_line), input images should indicate steeper (more perpendicular), relative angles to lane edges at the point significant steering input was applied. With this in mind, it was theorized when this model was (a) trained on imagery acquired at higher driving speeds but (b) executed at lower speeds, it detected approaching curve's lane edge sooner than ideal and applied minimal steering input from that point to create the effects observed above.
+Were the recorded lap driven faster and curves executed using typical [turn lines](https://en.wikipedia.org/wiki/Racing_line), input images should indicate steeper (more perpendicular), relative angles to lane edges at the point significant steering input was applied. With this in mind, it was theorized when this model was (a) trained on imagery acquired at higher driving speeds but (b) executed at lower speeds, it responded an approaching curve's lanes edge sooner that ideal and applied the kind of repetitive steering input necessary to induce effects described above.
 
 It was further theorized matching/exceeding the recorded driving speed at the fixed sampling rate would more consistently place the vehicle deeper into curves, with steeper relative angles to lane edges in imagery. If successful, this input should induce more patterns/dynamics anticipated by the model and lead to more effective steering input.
 
