@@ -335,7 +335,7 @@ Were the recorded lap driven faster and curves executed using typical [turn line
 
 It was further theorized matching/exceeding the recorded driving speed at the fixed sampling rate would more consistently place the vehicle deeper into curves, with steeper relative angles to lane edges in imagery. If successful, this input should induce more patterns/dynamics anticipated by the model and lead to more effective steering input.
 
-These suspicions motivated experimentation with different driving speeds and dataset smoothing/filtering without conclusive results, but hands-on experience did suggest higher driving speeds and control magnification may create opportunities for steeper relative angles to be frequent/evident enough to induce more desirable steering input.      
+These considerations motivated experimentation with different driving speeds and dataset smoothing/filtering without conclusive results, but hands-on experience did suggest higher driving speeds and control magnification may create opportunities for steeper relative angles to be frequent/evident enough to induce more desirable steering input.      
 
 The most successful/interpretable approach to this was altering the control function in [drive.py](drive.py) to linearly magnify steering input. This simplistic, configurable approach was chosen in lieu of further second-guessing model capabilities through robotic techniques such as non-linear scaling, smoothing, and limiting.
 
